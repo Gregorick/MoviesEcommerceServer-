@@ -15,8 +15,7 @@ module.exports = {
     products.forEach((product) => {
       totalPayment = totalPayment + product.price;
     });
-
-    const charge = await stripe.charge.create({
+    const charge = await stripe.charges.create({
       amount: totalPayment * 100,
       currency: "eur",
       source: token.id,
@@ -31,7 +30,7 @@ module.exports = {
         idPayment: charge.id,
         addressShipping,
       };
-      const validData = await createStrapi.entityValidator.validateEntity(
+      const validData = await strapi.entityValidator.validateEntityCreation(
         strapi.models.order,
         data
       );
